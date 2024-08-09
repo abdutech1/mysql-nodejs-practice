@@ -16,7 +16,7 @@ This repository contains a simple setup to practice MySQL database operations us
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/mysql-nodejs-practice.git
+    git clone https://github.com/abdutech1/mysql-nodejs-practice.git
     ```
 
 2. Navigate to the project directory:

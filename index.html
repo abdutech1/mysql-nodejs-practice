@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Products Information</h1>
+        <form id="product-form" enctype="multipart/form-data">
+            
+            <label for="product_name">Product's Name:</label><br>
+            <input type="text" name="product_name" ><br><br>
+            <label for="image_url">Product's image_url:</label><br>
+            <input type="file" name="image_url" ><br><br>
+            <label for="description">Product's description:</label><br>
+            <textarea name="description" rows="3" ></textarea><br>
+            <label for="product_url">Product's url:</label><br>
+            <input type="text" name="product_url" ><br><br>
+            <label for="brief_description">Product's brief description:</label><br>
+            <textarea name="brief_description" rows="5" ></textarea><br>
+            <label for="storage_range">Product's storage range:</label><br>
+            <input type="text" name="storage_range" ><br><br>
+            <label for="price_range">Product's price range:</label><br>
+            <input type="text" name="price_range" ><br><br>
+            <label for="buying_link">Product's buying link:</label><br>
+            <input type="text" name="buying_link" ><br><br>
+            <label for="payment_options">Product's payment options:</label><br>
+            <input type="text" name="payment_options" ><br><br>
+            <h3>Additional Offers</h3>
+            <label for="Apple_TV_plus">AppleTV+:</label><br>
+            <textarea name="Apple_TV_plus" rows="3"></textarea><br>
+            <label for="Apple_Fitness_plus">Apple Fitness+:</label><br>
+            <textarea name="Apple_Fitness_plus" rows="3"></textarea><br>
+            <label for="Apple_Arcade">Apple Arcade:</label><br>
+            <textarea name="Apple_Arcade" rows="3"></textarea><br><br><br>
+            <input class="submit" type="submit" value="Submit">
+        </form>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        document.getElementById('product-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const form = document.getElementById('product-form');
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('http://localhost:5000/add-product', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const result = await response.text();
+                const messageElement = document.getElementById('message');
+                messageElement.innerText = result;
+
+                
+                setTimeout(() => {
+                    messageElement.innerText = '';
+                }, 10000);
+
+                form.reset(); 
+            } catch (error) {
+                const messageElement = document.getElementById('message');
+                messageElement.innerText = 'Error submitting form: ' + error;
+
+                
+                setTimeout(() => {
+                    messageElement.innerText = '';
+                }, 10000);
+            }
+        });
+    </script>
+</body>
+</html>
+
+

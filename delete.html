@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Product</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Delete Product</h1>
+        <form id="delete-product-form">
+            <label for="product_id">Product ID:</label><br>
+            <input type="text" name="product_id" required><br><br>
+            <input class="submit" type="submit" value="Delete">
+        </form>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        document.getElementById('delete-product-form').addEventListener('submit', async (event) => {
+            event.preventDefault(); 
+
+            const productId = document.querySelector('input[name="product_id"]').value;
+
+            try {
+                const response = await fetch(`http://localhost:5000/delete-product/${productId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const result = await response.text();
+                const messageElement = document.getElementById('message');
+                messageElement.innerText = result;
+
+                
+                setTimeout(() => {
+                    messageElement.innerText = '';
+                }, 10000);
+
+                document.getElementById('delete-product-form').reset();
+            } catch (error) {
+                const messageElement = document.getElementById('message');
+                messageElement.innerText = 'Error deleting product: ' + error;
+
+                
+                setTimeout(() => {
+                    messageElement.innerText = '';
+                }, 10000);
+            }
+        });
+    </script>
+</body>
+</html>
